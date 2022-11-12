@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style>
+  table {border: 5px groove skyblue; width:1000px}
+  td,th{border:1px black solid ;  padding:10px}
+
+  input{border:solid 1px gray}
+  
+</style>
+</head>
+<body>
+
+<form method="post" action="front">
+ <input type="hidden" name="key" value="user"/>
+ <input type="hidden" name="methodName" value="update"/>
+<table cellspacing="0" align="center">
+   <caption><h2> 회원정보 수정 </h2></caption>
+
+  <tr>
+	<td>password</td>
+	<td><input type="password" name="password" /></td>
+  </tr>
+  <tr>
+  <tr>
+	<td>pwdCheck</td>
+	<td><input type="password" name="pwdCheck" /></td>
+  </tr>
+  <tr>
+	<td>nickname</td>
+	<td><input type="text" name="nickname" /></td>
+  </tr>
+  <tr>
+	<td>adress</td>
+	<td><input type="text" name="adress"  size="50"/></td>
+  </tr>
+  <tr>
+	<td style="width: 100px;">categoryCode</td>
+	<td colspan="5">
+		<div class="form-group" style="text-align: left; margin: 0 auto;">
+			<label class="btn btn-primary active">
+				<input type="radio" name="categoryCode" autocomplete="off" value="1" checked>침대
+			</label>
+			<label class="btn btn-primary">
+				<input type="radio" name="categoryCode" autocomplete="off" value="2">쇼파
+			</label>
+			<label class="btn btn-primary">
+				<input type="radio" name="categoryCode" autocomplete="off" value="3">식탁
+			</label>
+			<label class="btn btn-primary">
+				<input type="radio" name="categoryCode" autocomplete="off" value="4">책상
+			</label>
+			<label class="btn btn-primary">
+				<input type="radio" name="categoryCode" autocomplete="off" value="5">테이블
+			</label>
+		</div>
+	</td>
+  </tr>
+  <tr>
+	<td colspan="2" style="text-align: center;background-color: skyblue">
+	<input type="submit" value="수정하기" />
+	<input type="reset" value="취소" />
+	</td>
+	
+  </tr>
+  </table> 
+</form>
+</body>
+</html>
+
+
+
+
+
+

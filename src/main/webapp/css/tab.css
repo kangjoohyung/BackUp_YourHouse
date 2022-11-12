@@ -1,0 +1,22 @@
+@charset "uth-8";
+
+*{margin:0;padding:0}
+ul,li{list-style:none}
+
+.cate_tab{margin-top:80px;text-align:center}
+
+/* 탭메뉴 공통 */
+.tab_menu, .tab_content{width:960px;margin:30px auto 0}
+.tab_content li{border-top:1px solid #ededed}
+
+/* 탭메뉴 버튼 */
+.tab_menu {display:table;table-layout:fixed}
+.tab_menu li{display:table-cell;cursor:pointer}
+.tab_menu li img{vertical-align:middle; width: 180px;}
+.tab_menu li{background:#ededed;}
+.tab_menu li.on{background:#1049af}
+.tab_menu li+li{border-left:none}
+
+/* 탭메뉴 컨텐츠 */
+.tab_content li{display:none;min-height:300px}
+.tab_content li.on{display:block}

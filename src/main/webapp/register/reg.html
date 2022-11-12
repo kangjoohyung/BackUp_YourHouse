@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="../js/jquery-3.6.1.min.js"></script>
+   
+   
+   <style>
+ h1{
+  font-size:35px;
+  margin-left:0px; 
+  text-align: left;
+  font-weight: 900;
+  font-family: Lorem Ipsum Dolor;
+ }
+ hr{
+  border:solid 1px;
+ }
+ 
+ h2{
+ font-size:23px;
+ font-weight: 900;
+  font-family: Lorem Ipsum Dolor;
+  text-align: left;
+ 
+ }
+ 
+ .explain{
+ font-weight: 300;
+ font-family: Lorem Ipsum Dolor;
+ text-align:left;
+ margin-top:7px;
+ }
+ 
+ 
+ .ch_explain{
+ font-weight: 300;
+ font-family: Lorem Ipsum Dolor;
+ text-align:left; 
+ margin-top:12px; 
+ color: "rgb(255, 128, 128)";
+
+ }
+ 
+ 
+  .ch_f{
+  
+  font-weight: 300;
+  font-family: Lorem Ipsum Dolor;
+  text-align:left;
+  margin-top:5px;
+ 
+  }
+ 
+ 
+ 
+ </style>  
+   <script type="text/javascript">
+     
+  
+  
+    $( function() {
+	        	
+	       // 유효성 체크 정규식
+	       var pwdRegtype=/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/	 
+	       var phoneRegtype =/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
+	     		
+	       //각 input 객체 
+	       const pwdEle = document.regForm.password
+	       const pwdCheckEle = document.regForm.pwdCheck
+	       const nicknameEle  = document.regForm.nickname
+	       const phoneEle   = document.regForm.phone;
+	    	
+	       // color 
+           const okColor="rgb(33, 37, 41)"; // 비번 h2 기존 칼라	    
+     	   const errColor="rgb(255, 128, 128)"; //오류칼라
+	       
+     	   //이메일 인증시간
+	       let count=120;
+     	   
+	       /////상태변수 
+	       let nickState=false; // 닉네임 중복 확인
+	       let pwdState=false;//비밀번호가 양식에 맞는지 확인
+	       let rechPwdState=false;//비밀번호 두번확인
+	       let emailState=false;//이메일 최종 인증 완료 여부
+	        
+	       
+	         
+	       function checkPwd(){//비번 입력 함수     	    		    	  
+	          	  let msg="";//정상 메세지
+	         	  let color=okColor;//정상칼라 		    	 
+	         	   	      	  	      	       	       	  
+	         	  if(!pwdRegtype.test(pwdEle.value)){   		  		 
+	         	      msg="영문,숫자,특수 문자 를 조합한 8-16자의 비밀번호를 설정해주세요 현재 글자수: "+this.value.length;
+	         	      color=errColor;
+	         	      pwdState=false;
+	         	  }else{ 	 
+	         	     pwdState=true;	 		  	 
+	         	  }
+	         	 	   
+	              printMsg(pwdEle,msg,color); 
+	                 
+	              return ;   
+	                                 
+	           }//비번 입력 함수 끝
+	       
+	    
+	         
+	       function recheckPwd(){ ////비번 체크 함수	 
+	        	  
+		       
+	           	let msg="비밀번호가 일치하지 않습니다";//실페메세지
+	            let color=errColor;  
+	           
+	           
+	          	if(pwdEle.value==pwdCheckEle.value){				 		
+	          	     msg="";//성공 메세지
+	          		 color=okColor;//성공 칼라
+	          		 rechPwdState=true; //성공 상태		 		 
+	          	}else{  		
+	          		 rechPwdState=false;		
+	            }      	 	
+	          	
+	        	
+	          	printMsg(pwdCheckEle,msg,color)
+	          	return; 
+	        }//비번 체크 함수 끝
+	         
+	        
+	  
+	       
+	        function printMsg(ele,msg,color){ //메세지 출력함수	 
+	        	 let divEle  =ele.parentElement;    
+	             divEle.firstElementChild.style.color=color;//p2태그 색변경	
+	             divEle.lastElementChild.innerText=msg;  //메세지 출력 
+	             divEle.lastElementChild.style.color=color;
+	        }////메세지 출력함수	끝 
+	      
+	      
+	        
+	                      
+	      
+	        
+	        
+	   
+	        
+	  
+	        
+	        
+	        
+	        
+	        
+	       
+	        
+	        
+	        
+	       
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	      
+	        
+	        
+	        $("#inputMailCheck").click(function() {
+				  	
+	        	let mailAddr= $("#inputMail").val()
+			   if(  mailAddr == ""){
+				   alert("이메일란에 값을 입력해주세요")
+				   return;
+				   
+			   }
+	        	
+	        	
+	        	
+	        	 $.ajax({
+		   		     url :"../ajax" , //서버요청주소
+		   			  type:"get", //요청방식(method방식 :get)
+		   			  dataType:"text"  , //서버가 보내온 데이터(응답)타입(text | html | xml | json )
+		   			  data: {key:"mail" , methodName : "sendAuthCode" , email : mailAddr }, //서버에게 보낼 데이터정보(parameter정보)
+		   			  success :function(result){
+		   					  
+		   			   console.log(result);		
+		   			   alert(mailAddr+"에 인증번호가 전송 되었습니다")
+		   			   $("#inputMailCheck").attr("disabled",true)
+		   			   $("#chkm").css("display","block" );
+		   	                 
+		   	           
+		   	           
+		   	           let interval = setInterval(function() {	
+		                   count--;
+		 	    	       let min= Math.floor(count/60); 
+		 	    	       let sec = count%60;  
+		 	    	       $("#timer").html(`${min}:${sec}<br>`);     
+		 	    	     
+		 	    	      if (count === 0 ){
+		 	    	    	  clearInterval(interval); 	  
+		 	    	          $(this).attr("disabled",false); 
+		 	    	          result="";
+		 	    	          count=120; 
+		 	    	 	      $("#chkm").fadeOut(); 
+		 	    	 	      $("#inputMailCheck").attr("disabled",false);
+		 	    	      
+		 	    	       } 
+		 	    	     
+		 	     
+		 	    	     }, 1000);
+		   	                  
+		   	           
+		   	          $("#code").click(function() {
+		   	              if(result == $("#codeCheck").val()){ 
+	 	    	    	      clearInterval(interval);
+	 	    	              $("#inputMailCheck").html("인증완료");
+ 	    	                  $("#inputMailCheck").attr("disabled",true);
+         
+ 	    	                   emailState=true;   
+ 	    	      	           $("#chkm").fadeOut();  
+		   	           
+		   	        
+		   	               }
+		   	           })
+		   	           
+		    	 
+		  
+		   			
+		   			  
+		   			  } , //성공했을때 실행할 함수 
+		   			 error : function(err){  
+		   				alert(err+"에러 발생했어요.");
+		   			  }  //실팽했을때 실행할 함수 
+		   		  });//ajax끝
+	         
+	        
+	        
+	        
+	        
+	        })
+	        
+	        
+	        
+	        
+	        
+	        
+	     
+	  
+	    
+	        
+	        
+	        
+	      ////////////////이메일 ajax/////////////////////
+	       
+	  
+	
+	  ///////////////////////////////////////////////////////////
+	    
+	   //비번 입력 이벤트 등록 	 
+	   regForm.
+	   password.
+	   addEventListener("input",checkPwd, false);     
+     
+        //비번 체크 이벤트 등록
+        regForm.
+        pwdCheck.
+        addEventListener("input",recheckPwd,false);
+   
+       //nickName유효성
+        $("#inputNickname").keyup(function() {	
+	
+     
+          let nicknameV =$(this).val();
+  	   
+   	      if(nicknameV=="" ){
+               printMsg(nicknameEle,"필수항목입니다", errColor)
+               nickState=false;
+               return; 
+   	       }
+   	  
+   	       if(nicknameV.length<2 || nicknameV.length>16){   		 	
+   		     printMsg(nicknameEle,"2글자 이상 16글자 이하 입력", errColor)
+   	         nickState=false;
+   		     return;
+   	       }
+		   
+		    $.ajax({
+	   			url :"../ajax" , //서버요청주소
+	   		 	type:"post", //요청방식(method방식 :get)
+	   			dataType:"text"  , //서버가 보내온 데이터(응답)타입(text | html | xml | json )
+	   			data: {key:"user" , methodName : "duplicateCheckByNickname" , nickname : $(this).val() }, //서버에게 보낼 데이터정보(parameter정보)
+	   			success :function(result){     
+		            
+	   		       let re = parseInt(result); 		        		
+	   		       let msg="중복된 닉네임 입니다"; 
+	   		       let color=errColor
+	   		       
+	   		        if(re>0){
+	   		           nickState=false;
+	   		           color=errColor;
+	   		         }else{
+	   		           nickState=true;
+	   		           color=okColor;
+	   		           msg="";
+	   		        }
+	   		       
+	   		        printMsg(nicknameEle,msg,color);
+	   		   			 				
+	   			} , //성공했을때 실행할 함수 
+	   			error : function(err){  
+	   				alert(err+"에러 발생했어요.");
+	   			 }  //실팽했을때 실행할 함수 
+	   		 });//ajax끝
+
+          })///닉네임 유효성 체크
+		   
+         
+		 
+
+    	
+	  
+	   
+	   
+	   
+	   
+     
+       
+     
+     // 전송 이벤트 등록
+      regForm.
+      addEventListener("submit", function(e) { 
+    	   		  
+    	    printMsg(phoneEle,"", okColor);  
+    	  
+    	    if(!phoneRegtype.test(phoneEle.value)){
+    		   printMsg(phoneEle,"숫자, -을 포함해 휴대전화 형식에 맞게 입력해주세요", errColor);  		   
+    		   phoneEle.focus();
+    		   e.preventDefault();
+    		   return;
+    	    }	   
+    	    	    
+    	 if(nickState && pwdState && rechPwdState && emailState){		 
+    		 alert(regForm.email.value)
+    		 
+    		 e.target.submit();	
+    		 
+    	    }else{		
+    	 	 e.preventDefault();
+		
+           }         
+    	  	
+       }, false)
+        
+  
+   })
+   
+   
+   
+ 
+ </script>
+   
+</head>
+     <body>
+        <div style="margin-bottom:0px; margin-top:20px; margin-left:200px; width:400px; height:100% ">
+            <img src="../images/icons/NIZIP_logo.svg" style="height:200px; width:350px; ">
+       </div>
+    <div class="text-center"  style="margin-left:auto; margin-right:auto; margin-bottom:120px; margin-top:0; max-width:580px" >  
+         <h1>회원가입</h1> 
+          
+      <hr/>
+     <form style="max-width:600px; margin-left:auto; margin-right:auto; margin-top:70px;"name="regForm" action="../front" method="post"> 
+           <div id="mail_div" style="margin-top:13px"> 
+              <h2>이메일</h2> 
+                 <div class="d-grid gap-2 mt-3">     
+                    <input type="email" name="email" id="inputMail" class="form-control" placeholder="이메일입력" required autofocus style="height:50px" >                   
+                 <div class="ch_explain"></div>            
+                  <button type="button" id="inputMailCheck"   class="btn lg btn-outline-info" style="height: 52px;"  >이메일 인증하기</button>
+                       <div class="ch_f" id="chkm" style="display:none; width:100% ;height:100px; background-color:#f4eedd;margin-top:30px; text-align:center;" id="checkm" > 
+                          남은 시간 :<span class="ch_f" id="timer" style="text-align:center; color:red" ></span> 
+                         <div class="input-group mb-3" >
+                            <input type="text" id="codeCheck"  class="form-control" placeholder="인증코드를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button type="button" id="code" class="btn btn-outline-success">Success</button>
+                        </div>         
+                    </div>
+                  </div>                   
+           <div id="pwd_div" style="margin-top:40px">
+              <h2>비밀번호</h2>               
+              <div class="explain">영문,숫자,특수문자를 조합한 8-15자의 비밀번호를 입력해주세요</div> 
+              <input type="password" name="password" id="inputPwd" placeholder="비밀번호 입력" style="height: 50px; " class="form-control mt-2" required autofocus>
+              <div class="ch_explain" ></div>
+          </div> 
+          <div id="pwdCheck_div" style="margin-top:40px">
+              <h2>비밀번호 확인</h2>               
+              <input type="password" name="pwdCheck" id="inputPwdCheck" placeholder="비밀번호 입력" style="height: 50px" class="form-control mt-2" required autofocus>
+              <div class="ch_explain" ></div>
+          </div>   
+          <div id="nickName_div" style="margin-top:40px">
+              <h2>닉네임</h2> 
+              <div class="explain" style="margin-bottom:3px;">다른 유저와 겹치지 않도록 입력해주세요</div>               
+              <input class="form-control form-control-lg mt-2" 
+                name="nickname" id="inputNickname" type="text" placeholder="별명 (2~15자)" required="required" style="width:100%; height:50px ">
+              <div class="ch_explain" ></div>
+         </div>   
+         <div id="gender_div"style="margin-top:40px">
+            <h2>성별</h2> 
+            <div style="display:flex; margin-top:25px">
+               <div class="form-check form-check-block" style=" font-size:15px; text-align:center;" >
+               <input class="form-check-input" type="radio" name="gender" id="inputRadio1" value="M" required="required" style="margin-left:170px; height:25px; width:25px"/>남성 
+               </div> 
+               <div class="form-check form-check-block" style=" font-size:15px; text-align:center;"> 
+               <input class="form-check-input" type="radio" name="gender" id="inputRadio2" value="W" required=""  style="margin-left:50px; height:25px; width:25px;"/>여성
+              </div>
+           </div>  
+        </div>
+        <div id="date_div" style="margin-top:40px">     
+            <h2>생년월일</h2>
+            <input type="date" name="birth" id ="inputBirth" style="height: 50px; width:100% ;margin-top:10px; border-radius: 5px" required="required"  >             
+        </div>
+        <div id="phone_div" style="margin-top:40px">
+            <h2>핸드폰 번호</h2>           
+            <input type="text" name="phone" id="inputPhone" placeholder="폰번호 입력" style="height: 50px" class="form-control" required="required" autofocus>
+            <div class="ch_explain" id=phone_ch_explain></div>   
+        </div>    
+        <div id="fav_pro" style="margin-top:40px">
+            <h2>관심상품</h2> 
+              <select class="form-select mt-3" name="categoryCode" id="inputFavPro"  style="height:50px" required="required" >
+              <option selected>관심상품을 골라주세요</option>
+              <option value="1">One</option>
+              <option value="1">Two</option>
+              <option value="1">Three</option>
+             </select>    
+         </div>     
+         <div style="margin-top:40px">
+            <h2>주소 (필수 아님)</h2>
+            <input type="text" class="form-control" name="adress" id="inputAddr1" style="height:50px" placeholder="서울특별시 강남구" required>
+            <div class="invalid-feedback">
+              주소를 입력해주세요.
+            </div>
+          </div>
+        <div class="d-grid gap-2 " style="margin-top:35px">
+            <button type="submit" class="btn btn-primary" 
+             style="height:70px; font-family: Nanum Gothic, sans-serif;
+              font-size: 23px;">회원가입 하기</button>
+        </div> 
+       <input type=hidden name="key" value="user">
+	   <input type=hidden name="methodName" value="insert">
+       </form>   
+   
+   </div>
+
+ 
+  
+  
+ 
+
+
+
+
+
+
+</body>
+</html>
